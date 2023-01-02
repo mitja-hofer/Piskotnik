@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -73,5 +75,23 @@ public class ListRecipesActivity extends AppCompatActivity {
     public void startSearchRecipesActivity(View v) {
         Intent intent = new Intent(ListRecipesActivity.this, SearchRecipesActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mymenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.back_btn:
+                return true;
+            case R.id.home_btn:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
