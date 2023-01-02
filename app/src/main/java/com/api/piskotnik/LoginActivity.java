@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     EditText usernameInput;
@@ -26,11 +28,16 @@ public class LoginActivity extends AppCompatActivity {
         usernameInput = findViewById(R.id.username);
         passwordInput = findViewById(R.id.password);
         URLBase = getString(R.string.URL_base);
+        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.remove("token");
+        prefsEditor.apply();
     }
 
     public void login(View v) throws IOException {
         String username = String.valueOf(usernameInput.getText());
         String password = String.valueOf(passwordInput.getText());
+        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
         new Thread() {
             @Override
             public void run() {
@@ -39,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     token = new JSONObject(tokenResponse).getString("token");
 
-                    SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
                     SharedPreferences.Editor prefsEditor = prefs.edit();
                     prefsEditor.putString("token", token);
                     prefsEditor.apply();
@@ -49,8 +55,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         }.start();
 
-        Intent intent = new Intent(LoginActivity.this, ListRecipesActivity.class);
-        startActivity(intent);
+        if (Objects.equals(prefs.getString("token", ""), "")) {
+            Toast.makeText(getApplicationContext(),"Authentication error.",Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(LoginActivity.this, ListRecipesActivity.class);
+            startActivity(intent);
+        }
     }
 
     public String getToken(String username, String password) {
