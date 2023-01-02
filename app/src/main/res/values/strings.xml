@@ -12,4 +12,7 @@
     <string name="URL_base">https://piskonik-online.azurewebsites.net</string>
     <string name="network_error">Error when using network.</string>
     <string name="service_error">Error connecting to service.</string>
+    <string name="search_fill">Search...</string>
+    <string name="action_search_name">Search by recipe name</string>
+    <string name="action_search_ingrediens">Search by ingredients</string>
 </resources>

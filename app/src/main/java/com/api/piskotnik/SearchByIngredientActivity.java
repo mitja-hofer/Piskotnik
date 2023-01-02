@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,36 +19,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListRecipesActivity extends AppCompatActivity {
+public class SearchByIngredientActivity extends AppCompatActivity {
     String URLBase;
     private ListView lv;
     List<Map<String, String>> recipeMap = new ArrayList<Map<String, String>>();
+    String searchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_recipes);
+        setContentView(R.layout.activity_search_results);
         URLBase = getString(R.string.URL_base);
         Gson gson = new Gson();
-        lv = findViewById(R.id.recipe_list);
+        lv = findViewById(R.id.recipe_search_list);
+        Intent intent = getIntent();
+        searchQuery = intent.getStringExtra("search");
         new Thread() {
             @Override
             public void run() {
-                Recipe[] recipes = gson.fromJson(getRecipes(), Recipe[].class);
+                Recipe[] recipes = gson.fromJson(getRecipes(searchQuery), Recipe[].class);
                 SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
                 SharedPreferences.Editor prefsEditor = prefs.edit();
                 String recipesJson = gson.toJson(recipes);
                 prefsEditor.putString("current_recipes", recipesJson);
                 prefsEditor.apply();
-                for (int i = 0; i < recipes.length; i++) {
-                    recipeMap.add(recipes[i].parseToHashMap());
+                if (recipes != null) {
+                    for (int i = 0; i < recipes.length; i++) {
+                        recipeMap.add(recipes[i].parseToHashMap());
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),"Nothing found.",Toast.LENGTH_SHORT).show();
                 }
                 runOnUiThread(() -> {
-                    SimpleAdapter adapter = new SimpleAdapter(ListRecipesActivity.this.getApplicationContext(),
-                        recipeMap,
-                        R.layout.recipe_list_item,
-                        new String[] {"name", "ingredients"},
-                        new int[] {R.id.recipe_list_name, R.id.recipe_text}
+                    SimpleAdapter adapter = new SimpleAdapter(SearchByIngredientActivity.this.getApplicationContext(),
+                            recipeMap,
+                            R.layout.recipe_list_item,
+                            new String[] {"name", "ingredients"},
+                            new int[] {R.id.recipe_list_name, R.id.recipe_text}
                     );
                     lv.setAdapter(adapter);
                     lv.setOnItemClickListener((adapterView, view, i, l) -> startRecipeDetailsActivity(view, i));
@@ -56,22 +64,17 @@ public class ListRecipesActivity extends AppCompatActivity {
         }.start();
     }
 
-    public String getRecipes() {
+    public String getRecipes(String searchQuery) {
         HashMap<String, String> map = new HashMap<>();
 
         SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
         String token = prefs.getString("token", "");
-        return HttpHelper.httpGetCall(URLBase+"/recipes", token, map);
+        return HttpHelper.httpGetCall(URLBase+"/recipes/ingredient/"+searchQuery, token, map);
     }
 
     public void startRecipeDetailsActivity(View v, int i) {
-        Intent intent = new Intent(ListRecipesActivity.this, RecipeDetailsActivity.class);
+        Intent intent = new Intent(SearchByIngredientActivity.this, RecipeDetailsActivity.class);
         intent.putExtra("recipeIndex", i);
-        startActivity(intent);
-    }
-
-    public void startSearchRecipesActivity(View v) {
-        Intent intent = new Intent(ListRecipesActivity.this, SearchRecipesActivity.class);
         startActivity(intent);
     }
 }
