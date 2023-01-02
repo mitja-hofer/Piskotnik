@@ -26,6 +26,7 @@ public class SearchByIngredientActivity extends AppCompatActivity {
     private ListView lv;
     List<Map<String, String>> recipeMap = new ArrayList<Map<String, String>>();
     String searchQuery;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class SearchByIngredientActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipe_search_list);
         Intent intent = getIntent();
         searchQuery = intent.getStringExtra("search");
+        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
+        token = prefs.getString("token", "");
         new Thread() {
             @Override
             public void run() {
@@ -67,11 +70,7 @@ public class SearchByIngredientActivity extends AppCompatActivity {
     }
 
     public String getRecipes(String searchQuery) {
-        HashMap<String, String> map = new HashMap<>();
-
-        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
-        String token = prefs.getString("token", "");
-        return HttpHelper.httpGetCall(URLBase+"/recipes/ingredient/"+searchQuery, token, map);
+        return HttpHelper.httpGetCall(URLBase+"/recipes/ingredient/"+searchQuery, token);
     }
 
     public void startRecipeDetailsActivity(View v, int i) {

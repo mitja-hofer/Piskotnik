@@ -43,6 +43,7 @@
             android:layout_marginStart="10pt"
             android:layout_marginTop="10pt"
             android:textSize="20pt"
+            android:onClick="startAddRecipeActivity"
             android:text="+" />
     </RelativeLayout>
 

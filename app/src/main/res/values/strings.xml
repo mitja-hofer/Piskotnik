@@ -15,4 +15,11 @@
     <string name="search_fill">Search...</string>
     <string name="action_search_name">Search by recipe name</string>
     <string name="action_search_ingrediens">Search by ingredients</string>
+    <string name="prompt_recipe_name">Recipe name</string>
+    <string name="prompt_recipe_text">Say something about the recipe</string>
+    <string name="action_add_ingredient">+</string>
+    <string name="action_add_recipe">add new recipe</string>
+    <string name="prompt_ingredient_name">ingredient name</string>
+    <string name="prompt_ingredient_amount">amount</string>
+    <string name="prompt_ingredient_unit">unit</string>
 </resources>

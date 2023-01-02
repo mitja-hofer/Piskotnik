@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddRecipeActivity">
+
+    <EditText
+        android:id="@+id/new_recipe_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:autofillHints="@string/prompt_recipe_name"
+        android:hint="@string/prompt_recipe_name"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/new_recipe_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/new_recipe_ingredient_name"
+        android:layout_width="80pt"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/prompt_ingredient_name"
+        android:hint="@string/prompt_ingredient_name"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_ingredients" />
+
+    <EditText
+        android:id="@+id/new_recipe_ingredient_amount"
+        android:layout_width="30pt"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/prompt_ingredient_amount"
+        android:hint="@string/prompt_ingredient_amount"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        app:layout_constraintLeft_toRightOf="@id/new_recipe_ingredient_name"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_ingredients" />
+
+    <EditText
+        android:id="@+id/new_recipe_ingredient_unit"
+        android:layout_width="30pt"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/prompt_ingredient_unit"
+        android:hint="@string/prompt_ingredient_unit"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        app:layout_constraintLeft_toRightOf="@id/new_recipe_ingredient_amount"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_ingredients" />
+
+    <Button
+        android:id="@+id/btn_add_ingredient"
+        android:layout_width="20pt"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:onClick="addIngredient"
+        android:text="@string/action_add_ingredient"
+        app:layout_constraintLeft_toRightOf="@id/new_recipe_ingredient_unit"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_ingredients"/>
+
+    <EditText
+        android:id="@+id/new_recipe_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:autofillHints="@string/prompt_recipe_text"
+        android:hint="@string/prompt_recipe_text"
+        android:inputType="textMultiLine"
+        android:selectAllOnFocus="true"
+        android:minLines="4"
+        android:lines="8"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:gravity="top|start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_ingredient" />
+
+    <Button
+        android:id="@+id/btn_add_recipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:onClick="addRecipe"
+        android:text="@string/action_add_recipe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/new_recipe_text"
+        app:layout_constraintVertical_bias="0"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

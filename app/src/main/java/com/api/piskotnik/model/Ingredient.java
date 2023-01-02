@@ -5,9 +5,9 @@ import java.util.HashMap;
 public class Ingredient {
     Integer id;
     Integer recipeId;
-    String name;
-    Integer amount;
-    String unit;
+    public String name;
+    public Integer amount;
+    public String unit;
 
     public HashMap<String, String> parseToHashMap(){
         // tmp hash map for single contact

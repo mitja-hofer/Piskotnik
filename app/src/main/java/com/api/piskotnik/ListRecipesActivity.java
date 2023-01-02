@@ -16,12 +16,12 @@ import com.api.piskotnik.model.Recipe;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ListRecipesActivity extends AppCompatActivity {
     String URLBase;
+    String token;
     private ListView lv;
     List<Map<String, String>> recipeMap = new ArrayList<Map<String, String>>();
 
@@ -32,6 +32,8 @@ public class ListRecipesActivity extends AppCompatActivity {
         URLBase = getString(R.string.URL_base);
         Gson gson = new Gson();
         lv = findViewById(R.id.recipe_list);
+        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
+        token = prefs.getString("token", "");
         new Thread() {
             @Override
             public void run() {
@@ -59,11 +61,7 @@ public class ListRecipesActivity extends AppCompatActivity {
     }
 
     public String getRecipes() {
-        HashMap<String, String> map = new HashMap<>();
-
-        SharedPreferences prefs = getSharedPreferences("piskotnik", Context.MODE_PRIVATE);
-        String token = prefs.getString("token", "");
-        return HttpHelper.httpGetCall(URLBase+"/recipes", token, map);
+        return HttpHelper.httpGetCall(URLBase+"/recipes", token);
     }
 
     public void startRecipeDetailsActivity(View v, int i) {
@@ -74,6 +72,11 @@ public class ListRecipesActivity extends AppCompatActivity {
 
     public void startSearchRecipesActivity(View v) {
         Intent intent = new Intent(ListRecipesActivity.this, SearchRecipesActivity.class);
+        startActivity(intent);
+    }
+
+    public void startAddRecipeActivity(View v) {
+        Intent intent = new Intent(ListRecipesActivity.this, AddRecipeActivity.class);
         startActivity(intent);
     }
 
@@ -89,6 +92,8 @@ public class ListRecipesActivity extends AppCompatActivity {
             case R.id.back_btn:
                 return true;
             case R.id.home_btn:
+                Intent intent = new Intent(ListRecipesActivity.this, ListRecipesActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
