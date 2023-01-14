@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.api.piskotnik.model.Recipe;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     int recipeIndex;
     private ListView lv;
+    private ImageView iv;
     Recipe recipe;
     List<Map<String, String>> ingredientsMap = new ArrayList<Map<String, String>>();
 
@@ -44,11 +47,15 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             ingredientsMap.add(recipe.ingredients[i].parseToHashMap());
         }
         lv = findViewById(R.id.recipe_details_ingredients);
+        iv = findViewById(R.id.recipe_image);
+        Picasso.get().load(recipe.imgUrl).into(iv);
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+
+
 
         SimpleAdapter adapter = new SimpleAdapter(this,
                 ingredientsMap,

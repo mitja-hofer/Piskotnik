@@ -22,4 +22,5 @@
     <string name="prompt_ingredient_name">ingredient name</string>
     <string name="prompt_ingredient_amount">amount</string>
     <string name="prompt_ingredient_unit">unit</string>
+    <string name="image_description">Cookie image</string>
 </resources>

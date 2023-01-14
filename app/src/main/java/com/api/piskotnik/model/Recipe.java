@@ -8,6 +8,7 @@ public class Recipe {
     Integer userId;
     public String name;
     public String text;
+    public String imgUrl;
     public Ingredient[] ingredients;
 
     public HashMap<String, String> parseToHashMap(){
